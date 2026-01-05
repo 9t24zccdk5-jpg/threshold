@@ -1,0 +1,80 @@
+"use client";
+
+import Shell from "@/components/Shell";
+import { supabaseBrowser } from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import { promptForDate } from "@/lib/prompts";
+import Link from "next/link";
+
+export default function HomePage() {
+  const sb = supabaseBrowser();
+  const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">(
+    "beginner"
+  );
+
+  useEffect(() => {
+    (async () => {
+      const {
+        data: { session },
+      } = await sb.auth.getSession();
+
+      if (!session?.user) {
+        window.location.href = "/auth";
+        return;
+      }
+
+      const { data: profile } = await sb
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (!profile) {
+        window.location.href = "/onboarding";
+        return;
+      }
+
+      setLevel(profile.display_level ?? "beginner");
+    })();
+  }, [sb]);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const prompt = promptForDate(today, level);
+
+  return (
+    <Shell>
+      <div className="rounded-3xl bg-smoke/35 border border-ivory/10 p-6">
+        <div className="text-ivory/70 text-sm">Today’s threshold</div>
+
+        <div className="text-xl font-semibold mt-2">{prompt.text}</div>
+
+        <p className="mt-3 text-ivory/75 text-sm">
+          You don’t have to solve yourself. You only have to meet what’s true.
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          <Link
+            className="px-4 py-2 rounded-2xl bg-ivory text-ink font-semibold"
+            href="/journal"
+          >
+            Write today’s entry
+          </Link>
+
+          <Link
+            className="px-4 py-2 rounded-2xl bg-ink/60 border border-ivory/10 hover:border-ivory/25"
+            href="/tarot"
+          >
+            Pull tarot
+          </Link>
+
+          <Link
+            className="px-4 py-2 rounded-2xl bg-ink/60 border border-ivory/10 hover:border-ivory/25"
+            href="/rituals"
+          >
+            Find a ritual
+          </Link>
+        </div>
+      </div>
+    </Shell>
+  );
+}
