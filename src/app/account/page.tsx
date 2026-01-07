@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import Shell from "@/components/Shell";
 import { supabaseBrowser } from "@/lib/supabase";
