@@ -111,8 +111,21 @@ export default function TarotPage() {
                   {c.label}
                 </div>
                 <div className="text-sm font-semibold mt-1">{c.name}</div>
-                <div className="text-xs text-ivory/70 mt-2">Guidance</div>
-                <div className="text-sm text-ivory/85 mt-1">{c.guidance}</div>
+                <div className="mt-2 text-xs text-ivory/60">Meaning Labels</div>
+
+<div className="mt-1 text-xs text-ivory/80">
+  <span className="text-ivory/60">Light:</span>{" "}
+  {(c.meaningLabels?.light ?? []).join(", ") || "—"}
+</div>
+
+<div className="mt-1 text-xs text-ivory/80">
+  <span className="text-ivory/60">Shadow:</span>{" "}
+  {(c.meaningLabels?.shadow ?? []).join(", ") || "—"}
+</div>
+
+<div className="text-xs text-ivory/70 mt-3">Guidance</div>
+<div className="text-sm text-ivory/85 mt-1">{c.guidance}</div>
+
               </div>
             ))}
           </div>
