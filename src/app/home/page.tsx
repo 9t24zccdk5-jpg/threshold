@@ -34,7 +34,7 @@ export default function HomePage() {
         return;
       }
 
-      setLevel(profile.display_level ?? "beginner");
+      const [interests, setInterests] = useState<any[]>(["shadow"]);
     })();
   }, [sb]);
 
