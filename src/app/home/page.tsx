@@ -11,6 +11,7 @@ export default function HomePage() {
   const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">(
     "beginner"
   );
+const [interests, setInterests] = useState<any[]>(["shadow"]);
 
   useEffect(() => {
     (async () => {
@@ -33,13 +34,15 @@ export default function HomePage() {
         window.location.href = "/onboarding";
         return;
       }
+setInterests(profile.interests ?? ["shadow"]);
 
       const [interests, setInterests] = useState<any[]>(["shadow"]);
     })();
   }, [sb]);
 
   const today = new Date().toISOString().slice(0, 10);
-  const prompt = promptForDate(today, level);
+  const prompt = promptForDate(today, level, interests);
+
 
   return (
     <Shell>
