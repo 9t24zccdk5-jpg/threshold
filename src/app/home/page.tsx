@@ -9,40 +9,24 @@ import Link from "next/link";
 
 export default function HomePage() {
   const sb = supabaseBrowser();
-  const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">(
-    "beginner"
-  );
-  setInterests(profile.interests ?? ["shadow"]);
+  const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
+  const [interests, setInterests] = useState<any[]>(["shadow"]);
 
   useEffect(() => {
     (async () => {
-      const {
-        data: { session },
-      } = await sb.auth.getSession();
-
-      if (!session?.user) {
-        window.location.href = "/auth";
-        return;
-      }
-
-      const { data: profile } = await sb
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      if (!profile) {
-        window.location.href = "/onboarding";
-        return;
-      }
-
-
-      const [interests, setInterests] = useState<any[]>(["shadow"]);
+      // ...auth checks...
+      // after profile load:
+      setLevel(profile.display_level ?? "beginner");
+      setInterests(profile.interests ?? ["shadow"]);
     })();
   }, [sb]);
 
   const today = new Date().toISOString().slice(0, 10);
   const prompt = promptForDate(today, level, interests);
+
+  // ...
+}
+
 
 
   return (
