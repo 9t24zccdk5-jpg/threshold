@@ -12,8 +12,7 @@ export default function HomePage() {
   const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">(
     "beginner"
   );
-const [interests, setInterests] = useState<any[]>(["shadow"]);
-
+  setInterests(profile.interests ?? ["shadow"]);
 
   useEffect(() => {
     (async () => {
@@ -36,7 +35,7 @@ const [interests, setInterests] = useState<any[]>(["shadow"]);
         window.location.href = "/onboarding";
         return;
       }
-setInterests(profile.interests ?? ["shadow"]);
+
 
       const [interests, setInterests] = useState<any[]>(["shadow"]);
     })();
