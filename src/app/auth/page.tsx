@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 import { useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import PageWrap from "@/components/PageWrap";
 
 export default function AuthPage() {
   const sb = supabaseBrowser();
@@ -37,7 +38,9 @@ export default function AuthPage() {
   }
 
   return (
+  <PageWrap theme="auth">
     <div className="min-h-screen flex items-center justify-center px-6">
+
       <div className="w-full max-w-md rounded-3xl bg-smoke/40 border border-ivory/10 p-6 shadow">
         <div className="text-sm tracking-[0.25em] text-ivory/70">THRESHOLD</div>
         <h1 className="text-2xl font-semibold mt-2">
@@ -82,6 +85,8 @@ export default function AuthPage() {
           </button>
         </div>
       </div>
-    </div>
+        </div>
+  </PageWrap>
   );
 }
+
